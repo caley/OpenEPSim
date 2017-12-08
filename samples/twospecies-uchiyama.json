@@ -1,0 +1,62 @@
+// Two-species model studied in Uchiyama, 2008
+// http://dx.doi.org/10.1016/j.chaos.2006.05.013
+//
+{
+    "L": 200,
+    "tMax": 500000,
+    "tSkip": 0,
+    "verbose": 0,
+
+    // Number of states per site: empty, occupied by species 1 or 2
+    "nstates": 3,
+
+    "transitions": [
+        // Left boundary: species 2 can enter or exit, species 1 blocked
+        {
+            "window": 1,
+            "from": 1,
+            "to": 1,
+            "rates": [
+                [0.0, 0.0, 0.01],
+                [0.0, 0, 0],
+                [0.2, 0, 0]
+             ]
+        },
+        // Usual two-species ASEP bulk hopping with p = 1, q = 0.3.
+        {
+            "window": 2,
+            "from": 1,
+            "to": -2,
+            "rates": [
+                [0.0, 0.0, 0.0,  0.0, 0.0, 0.0,  0.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0,  1.0, 0.0, 0.0,  0.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0,  0.0, 0.0, 0.0,  1.0, 0.0, 0.0],
+
+                [0.0, 0.3, 0.0,  0.0, 0.0, 0.0,  0.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0,  0.0, 0.0, 0.0,  0.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0,  0.0, 0.0, 0.0,  0.0, 1.0, 0.0],
+
+                [0.0, 0.0, 0.3,  0.0, 0.0, 0.0,  0.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0,  0.0, 0.0, 0.3,  0.0, 0.0, 0.0],
+                [0.0, 0.0, 0.0,  0.0, 0.0, 0.0,  0.0, 0.0, 0.0]
+             ]
+        },
+        // Right boundary: species 2 can enter or exit, species 1 blocked
+        {
+            "window": 1,
+            "from": -1,
+            "to": -1,
+            "rates": [
+                [0.0, 0.0, 0.7],
+                [0.0, 0.0, 0.0],
+                [0.1, 0.0, 0.0]
+             ]
+        }
+    ],
+
+    // Start with species 1 particles on the first four sites, and the
+    // remaining sites empty (set to zero).  Note that the number of
+    // species 1 particles on the lattice remains fixed due to the bulk
+    // dynamics.
+    "initialState": [1, 1, 1, 1]
+}

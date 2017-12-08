@@ -1,0 +1,70 @@
+// Sample configuration for the ASEP in the high density phase
+//
+// See for example https://arxiv.org/abs/1408.5357
+{
+    // Lattice length
+    "L": 200,
+
+    // Simulation length (time)
+    "tMax": 500000,
+
+    // Start recording statistics from t = 0
+    "tSkip": 0,
+
+    // Number of states each site can be in (empty or occupied for the ASEP)
+    "nstates": 2,
+
+    // Specify the transitions
+    "transitions": [
+
+        // Left boundary: particles enter with rate 0.29 and exit with
+        // rate 0.12 (exit rates are calculated automatically).
+        //
+        // This local transition matrix affects one site (window = 1), and is
+        // applied to site 1 (from = to = 1).
+        {
+            "window": 1,
+            "from": 1,
+            "to": 1,
+            "count": true,
+            "rates": [
+                [0, 0.12],
+                [0.29, 0]
+             ]
+        },
+
+        // Bulk hopping: particles hop right into empty sites with
+        // rate 1, and left with rate 0.3.
+        //
+        // This local transition matrix affects two sites (window = 2), and is
+        // applied to sites 1 to L - 1(from 1, to = -2, negative indices count
+        // from the right starting at -1 for site L).
+        {
+            "window": 2,
+            "from": 1,
+            "to": -2,
+            "rates": [
+                [0, 0, 0, 0],
+                [0, 0, 1, 0],
+                [0, 0.3, 0, 0],
+                [0, 0, 0, 0]
+             ]
+        },
+
+        // Right boundary: particles exit with rate 0.22 and exit with
+        // rate 0.13
+        //
+        // This local transition matrix affects one site (window = 1), and is
+        // applied to site L (from = to = -1).
+        {
+            "window": 1,
+            "from": -1,
+            "to": -1,
+            "count": true,
+            "rates": [
+                [0, 0.22],
+                [0.13, 0]
+             ]
+        }
+    ]
+}
