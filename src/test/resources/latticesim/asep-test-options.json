@@ -1,0 +1,43 @@
+{
+    "L": 15,
+    "tMax": 1000,
+    "tSkip": 0,
+    "nstates": 2,
+    "transitions": [
+        // Left boundary
+        {
+            "window": 1,
+            "from": 1,
+            "to": 1,
+            "count": true,
+            "rates": [
+                [0, 0.12],
+                [0.29, 0]
+             ]
+        },
+        // Bulk hopping
+        {
+            "window": 2,
+            "from": 1,
+            "to": -2,
+            "rates": [
+                [0, 0, 0, 0],
+                [0, 0, 1, 0],
+                [0, 0.3, 0, 0],
+                [0, 0, 0, 0]
+             ]
+        },
+        // Right boundary
+        {
+            "window": 1,
+            "from": -1,
+            "to": -1,
+            "count": true,
+            "rates": [
+                [0, 0.22],
+                [0.13, 0]
+             ]
+        }
+    ],
+    "initialState": [0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1]
+}
