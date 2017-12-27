@@ -275,7 +275,7 @@ public class Transitions {
     /**
      * For debugging: dump the list of transitions.
      */
-    private void dump() {
+    void dump() {
         Transition curr = transitions;
 
         if (curr == null) {
@@ -287,6 +287,63 @@ public class Transitions {
         while (curr != null) {
             System.out.println(curr);
             curr = curr.next;
+        }
+    }
+
+    /**
+     *  Return array of the current transition list with information
+     *  about each transition as a JSON string.
+     *
+     *  This method is meant for testing/debugging.
+     */
+    String [] transitionsJSON() {
+        // Count the number of transitions
+        Transition curr = transitions;
+        int numTransitions = 0;
+
+        while (curr != null) {
+            numTransitions++;
+
+            curr = curr.next;
+        }
+
+        String [] jsonTransitions = new String[numTransitions];
+
+        curr = transitions;
+        int i = 0;
+
+        while (curr != null) {
+            jsonTransitions[i] = curr.toString();
+
+            curr = curr.next;
+            i++;
+        }
+
+        return jsonTransitions;
+    }
+
+    /**
+     * XXX This method really is only meant for testing.
+     *
+     * Force a transition to occur, specified by a string as returned
+     * by transitionsJson().
+     */
+    void forceTransition(String transitionSpec) {
+        Transition curr = transitions;
+
+        while (curr != null && !transitionSpec.equals(curr.toString())) {
+            curr = curr.next;
+        }
+
+        // Only if we found a matching transition
+        if (curr != null) {
+            config.setConfiguration(curr.c, curr.position, curr.window);
+
+            // Remove affected transitions
+            clearDirty(curr.position, curr.window);
+
+            // Then recalculate them
+            recalculate(curr.position, curr.window);
         }
     }
 }

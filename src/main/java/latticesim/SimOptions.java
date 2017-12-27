@@ -1,5 +1,8 @@
 package latticesim;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import com.google.gson.Gson;
 
 public class SimOptions {
@@ -164,24 +167,40 @@ public class SimOptions {
 
         SimOptions options = gson.fromJson(json, SimOptions.class);
 
-        // Check the options are valid
+        options.checkValid();
 
-        if (options.L <= 0 || options.nstates <= 0) {
+        return options;
+    }
+
+    public static SimOptions fromJSON(InputStream json) throws Exception {
+        InputStreamReader reader = new InputStreamReader(json);
+
+        Gson gson = new Gson();
+
+        SimOptions options = gson.fromJson(reader, SimOptions.class);
+
+        options.checkValid();
+
+        return options;
+    }
+
+    /**
+     * Check the options are valid
+     */
+    private void checkValid() throws Exception {
+        if (L <= 0 || nstates <= 0) {
             throw new Exception("L, nstates must be greater than zero.");
         }
 
-        if (options.transitions == null) {
+        if (transitions == null) {
             throw new Exception("Some transitions must be specified");
         }
 
-        for (int i = 0; i < options.transitions.length; i++) {
-            if (!options.transitions[i].isValid(options.L, options.nstates)) {
+        for (int i = 0; i < transitions.length; i++) {
+            if (!transitions[i].isValid(L, nstates)) {
                 throw new Exception("Invalid transitions: " + i);
             }
         }
-
-
-        return options;
     }
 
     public String toString() {
