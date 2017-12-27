@@ -4,9 +4,9 @@ General simulation code for ASEP like models on 1D lattices.
 ## Very brief instructions
 Download the jars for [gson](https://github.com/google/gson) and [Apache Common Maths](http://commons.apache.org/proper/commons-math/) and update env.sh to point to them.
 
-To compile
+Now compiles with [Maven](https://maven.apache.org/)
 ```
-./compile.sh
+mvn compile
 ```
 
 To run the ASEP simulation from the samples folder
