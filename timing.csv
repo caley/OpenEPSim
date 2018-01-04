@@ -12,3 +12,13 @@
 2018-01-03, leftpermLD-longtiming-options.json, 1000, 100000, 2m59.105s
 2018-01-03, leftpermLD-longtiming-options.json, 1000, 30000, 0m47.430s
 2018-01-03, leftpermLD-longtiming-options.json, 1000, 30000, 0m48.968s
+# Second run
+2018-01-03, asepHD-longtiming-options.json, 1000, 100000, 1m41.888s
+2018-01-03, asepHD-longtiming-options.json, 1000, 100000, 1m50.006s
+2018-01-03, asepLD-longtiming-options.json, 1000, 500000, 1m39.883s
+# With stats
+2018-01-03, leftpermLD-statslongtiming-options.json, 1000, 10000, 0m47.764s
+2018-01-03, leftpermLD-statslongtiming-options.json, 1000, 10000, 0m48.263s
+# Improved stats code
+2018-01-03, leftpermLD-statslongtiming-options.json, 1000, 10000, 0m36.141s
+2018-01-03, leftpermLD-statslongtiming-options.json, 1000, 10000, 0m36.280s

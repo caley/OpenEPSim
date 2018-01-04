@@ -56,12 +56,18 @@ public class DensityStatistics {
      *  @param dt Time spent in this configuration.
      */
     public void update(LatticeConfiguration config, double dt) {
+        int [] speciesCount = new int[nstates];
+
         for (int i = 0; i < L; i++) {
-            tOccupied[config.getConfigurationInt(i)][i] += dt;
+            int c = config.getConfigurationInt(i);
+
+            tOccupied[c][i] += dt;
+
+            speciesCount[c]++;
         }
 
         for (int c = 0; c < nstates; c++) {
-            tSpeciesOccupation[c][config.countSpecies(c)] += dt;
+            tSpeciesOccupation[c][speciesCount[c]] += dt;
         }
 
         tTotal += dt;

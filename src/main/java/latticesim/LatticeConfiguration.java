@@ -66,21 +66,6 @@ public class LatticeConfiguration {
     }
 
     /**
-     * Count the number of particles of species c currently on the lattice.
-     */
-    public int countSpecies(int c) {
-        int nc = 0;
-
-        for (int i = 0; i < lattice.length; i++) {
-            if (lattice[i] == c) {
-                nc++;
-            }
-        }
-
-        return nc;
-    }
-
-    /**
      * Set the lattice configuration at sites i, ..., i + window - 1,
      * specified by integer c.
      *
