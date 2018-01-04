@@ -138,6 +138,9 @@ public class LatticeSimulation {
      * step-by-step lattice configurations are also written to stdout.
      */
     public static void main(String [] args) throws Exception {
+        // Record run time
+        final long startTime = System.currentTimeMillis();
+
         SimOptions options = SimOptions.fromJSON(SimUtil.getStdIn());
 
         LatticeSimulation sim = new LatticeSimulation(options.seed);
@@ -185,6 +188,8 @@ public class LatticeSimulation {
             sim.runVerbose(config, transitions, tMax - tSkip, stats);
         }
 
+        final long endTime = System.currentTimeMillis();
+
         // Print out run options and results
 
         String outString =
@@ -192,13 +197,17 @@ public class LatticeSimulation {
             +
             options.toString()
             +
-            ", \"results\": "
+            ", \"\nresults\": "
             +
             stats.summary()
             +
-            ", \"endconfig\": "
+            ", \"\nendconfig\": "
             +
             config.toJson()
+            +
+            ", \"\nruntime\": "
+            +
+            (endTime - startTime)
             +
             "}";
 
