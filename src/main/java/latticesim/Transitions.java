@@ -213,13 +213,14 @@ public class Transitions {
 
         config.setConfiguration(curr.c, curr.position, curr.window);
 
-        // Remove affected transitions
-        clearDirty(curr.position, curr.window);
-
-        // Then recalculate them
-        recalculate(curr.position, curr.window);
-
         stats.countTransition(curr.ispec, curr.c, curr.fromC);
+
+        // Remove affected transitions and recalculate
+        int currPosition = curr.position;
+        int currWindow = curr.window;
+
+        clearDirty(currPosition, currWindow);
+        recalculate(currPosition, currWindow);
     }
 
     /**
