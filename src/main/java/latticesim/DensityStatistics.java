@@ -88,8 +88,46 @@ public class DensityStatistics {
     }
 
     /**
+     * Return total elapsed (simulated) time.
+     */
+    public double getTotalTime() {
+        return tTotal;
+    }
+
+    /**
+     * Compute and return the current density profile for given species.
+     *
+     * @param c Species to compute density profile for.
+     */
+    public double [] getDensityProfile(int c) {
+        double [] profile = new double[L];
+
+        for (int i = 0; i < L; i++) {
+            profile[i] = tOccupied[c][i] / tTotal;
+        }
+
+        return profile;
+    }
+
+    /**
+     * Return the number of times the specified transition
+     * has occurred.
+     *
+     * The LocalTransitionSpec instance at index spec in the SimOptions
+     * instance must have parameter count set to True. 
+     *
+     * @param spec Index of transition spec in SimOptions transitions
+     *             list (zero indexed).
+     * @param toC  Transition to configuration toC
+     * @param fromC Transition from configuration fromC
+     */
+    public int getTransitionCount(int spec, int toC, int fromC) {
+        return counts[spec][toC][fromC];
+    }
+
+    /**
      * Return a string summary of the collected statistics
-     * in JSON forma.
+     * in JSON format.
      */
     public String summary() {
         DensityResults results = new DensityResults();

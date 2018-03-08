@@ -1,0 +1,42 @@
+// Parameters in the MC phase, corresponding to
+//   p = 1, q = 0.1, a = 0.5, b = 0.8, c = -0.3, d = -0.2
+// Expected density rho = 0.5, current J = 0.225
+//
+// See https://arxiv.org/abs/cond-mat/0312457
+{
+    "L": 400,
+    "tMax":  200000,
+    "nstates": 2,
+    "transitions": [
+        {
+            "window": 1,
+            "from": 1,
+            "to": 1,
+            "count": true,
+            "rates": [
+                [0, 0.129],
+                [0.857, 0]
+             ]
+        },
+        {
+            "window": 2,
+            "from": 1,
+            "to": -2,
+            "rates": [
+                [0, 0, 0, 0],
+                [0, 0, 1, 0],
+                [0, 0.1, 0, 0],
+                [0, 0, 0, 0]
+             ]
+        },
+        {
+            "window": 1,
+            "from": -1,
+            "to": -1,
+            "rates": [
+                [0, 0.625],
+                [0.100, 0]
+             ]
+        }
+    ]
+}

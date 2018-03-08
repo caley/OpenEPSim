@@ -130,21 +130,10 @@ public class LatticeSimulation {
         }
     }
 
-    /**
-     * main() implementing very simple interface.
-     *
-     * All options are read from a JSON file given as stdin.  All output
-     * is written to stdout as a JSON file.  In verbose mode,
-     * step-by-step lattice configurations are also written to stdout.
-     */
-    public static void main(String [] args) throws Exception {
-        // Record run time
-        final long startTime = System.currentTimeMillis();
-
-        SimOptions options = SimOptions.fromJSON(SimUtil.getStdIn());
-
-        LatticeSimulation sim = new LatticeSimulation(options.seed);
-
+    public LatticeConfiguration simulate(
+        SimOptions options,
+        DensityStatistics stats
+    ) {
         double tMax = options.tMax;
 
         double tSkip = options.tSkip;
@@ -164,29 +153,49 @@ public class LatticeSimulation {
 
         Transitions transitions = new Transitions(config, options.transitions);
 
-        DensityStatistics stats
-        =
-        new DensityStatistics(options.L, options.nstates, options.transitions);
-
         if (options.verbose == 0) {
             // Don't print anything during the run
 
             // Don't record statistics for the first part
-            sim.run(config, transitions, tSkip);
+            run(config, transitions, tSkip);
 
             // Now start recording stats
-            sim.run(config, transitions, tMax - tSkip, stats);
+            run(config, transitions, tMax - tSkip, stats);
         } else {
             // Verbose mode: print out configuration at each time increment
 
             System.out.println(config.toString());
 
             // Don't record statistics for the first part
-            sim.runVerbose(config, transitions, tSkip);
+            runVerbose(config, transitions, tSkip);
 
             // Now start recording stats
-            sim.runVerbose(config, transitions, tMax - tSkip, stats);
+            runVerbose(config, transitions, tMax - tSkip, stats);
         }
+
+        return config;
+    }
+
+    /**
+     * main() implementing very simple interface.
+     *
+     * All options are read from a JSON file given as stdin.  All output
+     * is written to stdout as a JSON file.  In verbose mode,
+     * step-by-step lattice configurations are also written to stdout.
+     */
+    public static void main(String [] args) throws Exception {
+        // Record run time
+        final long startTime = System.currentTimeMillis();
+
+        SimOptions options = SimOptions.fromJSON(SimUtil.getStdIn());
+
+        LatticeSimulation sim = new LatticeSimulation(options.seed);
+
+        DensityStatistics stats
+        =
+        new DensityStatistics(options.L, options.nstates, options.transitions);
+
+        LatticeConfiguration config = sim.simulate(options, stats);
 
         final long endTime = System.currentTimeMillis();
 
