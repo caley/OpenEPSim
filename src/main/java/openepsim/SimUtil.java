@@ -1,4 +1,4 @@
-package latticesim;
+package openepsim;
 
 import java.util.Scanner;
 

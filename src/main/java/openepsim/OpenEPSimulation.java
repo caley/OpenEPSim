@@ -1,8 +1,8 @@
-package latticesim;
+package openepsim;
 
 import org.apache.commons.math3.random.MersenneTwister;
 
-public class LatticeSimulation {
+public class OpenEPSimulation {
     private MersenneTwister random;
 
     /**
@@ -10,7 +10,7 @@ public class LatticeSimulation {
      *
      *  @param seed Random seed.  Pass 0 to not set a seed.
      */
-    public LatticeSimulation(long seed) {
+    public OpenEPSimulation(long seed) {
         if (seed == 0) {
             random = new MersenneTwister();
         } else {
@@ -189,7 +189,7 @@ public class LatticeSimulation {
 
         SimOptions options = SimOptions.fromJSON(SimUtil.getStdIn());
 
-        LatticeSimulation sim = new LatticeSimulation(options.seed);
+        OpenEPSimulation sim = new OpenEPSimulation(options.seed);
 
         DensityStatistics stats
         =

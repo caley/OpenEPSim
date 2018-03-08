@@ -1,4 +1,4 @@
-package latticesim;
+package openepsim;
 
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ public class ASEPPhasesTest {
     ) throws Exception {
         SimOptions options = loadTestOptions(optionFile);
 
-        LatticeSimulation sim = new LatticeSimulation(options.seed);
+        OpenEPSimulation sim = new OpenEPSimulation(options.seed);
 
         DensityStatistics stats
         =

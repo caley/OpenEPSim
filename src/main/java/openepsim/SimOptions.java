@@ -1,4 +1,4 @@
-package latticesim;
+package openepsim;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
