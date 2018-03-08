@@ -210,7 +210,7 @@ public class OpenEPSimulation {
             +
             stats.summary()
             +
-            ", \"\nendconfig\": "
+            ", \"\nfinalState\": "
             +
             config.toJson()
             +

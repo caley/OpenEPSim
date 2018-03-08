@@ -3,7 +3,7 @@
 // See for example https://arxiv.org/abs/1408.5357
 {
     // Lattice length
-    "L": 200,
+    "L": 100,
 
     // Simulation length (time)
     "tMax": 500000,
@@ -60,7 +60,6 @@
             "window": 1,
             "from": -1,
             "to": -1,
-            "count": true,
             "rates": [
                 [0, 0.22],
                 [0.13, 0]

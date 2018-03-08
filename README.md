@@ -1,21 +1,26 @@
-# OpenEPSim: Open Exclusion Process Simulator
+# OpenEPSim: Open Exclusion Process Simulation Tool
 
-[Input configuration](#input-configuration)
+OpenEPSim simulates exclusion processes on finite lattices, such as the [ASEP](https://arxiv.org/abs/cond-mat/0611701).  It handles multi-species models, arbitrary local interactions involving 1 or more neighbouring sites, and open boundary conditions (periodic boundaries are not supported).  Output includes time-averaged density profiles, distributions of the number of particles of each species, and counts of specified transitions allowing computation of average currents.
 
+To define a model and run a simulation, all that is needed is to specify the transition matrix, and a few other parameters.  The system is then simulated using the [Gillespie algorithm](https://en.wikipedia.org/wiki/Gillespie_algorithm), and time-averaged statistics collected.
 
+## Table of contents
+* [Quick start guide](#quick-start-guide)
+    * [Input configuration](#input-configuration)
+    * [Results](#results)
+* [Build and run instructions](#build-and-run-instructions)
+* [Input format](#input-format)
+* [Output format](#output-format)
 
-
-OpenEPS simulates exclusion processes on finite lattices, such as the [ASEP](https://arxiv.org/abs/cond-mat/0611701).  It handles multi-species models, arbitrary local interactions involving 1 or more neighbouring sites, and open boundary conditions (periodic boundaries are not supported).  Output can include time-averaged density profiles and currents, and distributions of the number of particles of each species.
-
-To define a model and run a simulation, all that is needed is to specify the transition matrix, and a few other parameters.  The input and output is in [JSON](https://www.json.org/) format.  Full details of how to build and run OpenEPS, and the input and output formats are given below.  But first we give a quick example.
 
 ## Quick start guide
 
-OpenEPS is written in Java.  Compiled versions are available [here](???), so that only the Java runtime (version 1.8???) is required to run it.  As an example, we will look at the configuration file [asep.json](samples/asep.json).
+OpenEPSim is written in Java.  Compiled versions are available [here](https://github.com/caley/OpenEPSim/releases), so that only the Java runtime (version 1.8) is required to run it.  As an example, we will look at the configuration file [asep.json](samples/asep.json).
+All input and output is in [JSON](https://www.json.org/) format.  
 
-Assuming [something.jar](???) and [asep.json](???) have been saved to the current directory, we can run the simulation as
+Assuming [openeps-with-deps-VERSION.jar](TODO) and [asep.json](samples/asep.json) have been saved to the current directory, we can run the simulation as
 ```shell
-$ java -classpath something.jar openeps.OpenEPSimulator < asep.json > results.json
+$ java -classpath openeps-with-deps-VERSION.jar openeps.OpenEPSimulation < asep.json > results.json
 ```
 Let's now explain what that will do (or has done already if you're keen).
 
@@ -28,7 +33,7 @@ The configuration file specifies the transition matrix for the open boundary ASE
 This is the configuration file asep.json (with most of the comments left out):
 ```javascript
 {
-  "L": 200,
+  "L": 100,
 
   "tSkip": 0,
 
@@ -78,9 +83,9 @@ This is the configuration file asep.json (with most of the comments left out):
 
 First
 ```
-"L": 200
+"L": 100
 ```
-sets the number of sites to 200.  Sites are labelled left to right (1, 2, ..., L), or right to left (-1, -2, ..., -L).  So for this example, both '200' and '-1' would refer to the same site.
+sets the number of sites to 100.  Sites are labelled left to right (1, 2, ..., L), or right to left (-1, -2, ..., -L).  So for this example, both '100' and '-1' would refer to the same site.
 
 As each site of the ASEP has two states (empty or occupied), we have
 ```
@@ -101,7 +106,7 @@ We'll look at the bulk part of the transition matrix first
     ]
 }
 ```
-`"window": 2` specifies that this matrix applies to two neighbouring sites.  The `"from"` and `"to"` entries specify that the matrix is to be applied at sites (1,2), (2,3), ..., (-2, -1) = (199, 200) (because L = 200 in this example).  `"rates"` gives the local transition matrix, in the usual basis (see TODO REF), and so must be of size nstates<sup>window</sup>.  A transition matrix should have negative entries on the diagonal, so that the columns sum to zero.  OpenEPS will insert the correct entries, so we can leave the diagonal entries as zero.
+`"window": 2` specifies that this matrix applies to two neighbouring sites.  The `"from"` and `"to"` entries specify that the matrix is to be applied at sites (1,2), (2,3), ..., (-2, -1) = (99, 100) (because L = 100 in this example).  `"rates"` gives the local transition matrix, in the usual basis (see TODO REF), and so must be of size nstates<sup>window</sup>.  A transition matrix should have negative entries on the diagonal, so that the columns sum to zero.  OpenEPSim will insert the correct entries, so we can leave the diagonal entries as zero.
 
 The left boundary matrix is specified by
 ```
@@ -116,11 +121,11 @@ The left boundary matrix is specified by
     ]
 }
 ```
-It has `"window": 1` to specify that this matrix applies to a single site, and `"from"` and `"to"` are set to 1, so it is applied to the leftmost site.  `"rates"` specifies the injection and extraction rates (α = 0.29, and γ = 0.12).  `"count": true` tells OpenEPS to count the number of times each event occurs - this allows us to measure the current (a little like the current counting deformation of the transition matrix).
+It has `"window": 1` to specify that this matrix applies to a single site, and `"from"` and `"to"` are set to 1, so it is applied to the leftmost site.  `"rates"` specifies the injection and extraction rates (α = 0.29, and γ = 0.12).  `"count": true` tells OpenEPSim to count the number of times each event occurs - this allows us to measure the current (a little like the current counting deformation of the transition matrix).
 
 The right boundary is similar, but it has `"from"` and `"to"` set to -1, so that it is applied to the rightmost site.
 
-Finally, `"tMax": 500000` specifies how long to run the simulation for (simulation time units).  `"tSkip": 0` tells OpenEPS to record statistics from the beginning of the run, but we could set it greater than zero to skip some some initial part.
+Finally, `"tMax": 500000` specifies how long to run the simulation for (simulation time units).  `"tSkip": 0` tells OpenEPSim to record statistics from the beginning of the run, but we could set it greater than zero to skip some some initial part.
 
 ### Results
 
@@ -134,8 +139,8 @@ In the above example, the simulation output is written to results.json.  We'll l
     [0.386387554103628,0.43022726248468085,0.4712993978984931,0.5072976305532152,0.540544020701648,0.5684663687068996,0.5921447174244232,0.6128486932622469,0.6325737456479313,0.6494510780465081,0.6648102234860775,0.6776818746561228,0.6876856982033551,0.6967997478421131,0.70499721439781,0.7110104102635096,0.7162771366718487,0.7204214191267312,0.7245880235869685,0.7284175582476695,0.7314436959110004,0.7344018516980817,...]
     ],
     "counts":[
-      [[0,89000],
-       [23313,0]], null, null
+      [[0,22816],
+       [88865,0]], null, null
     ]
   },
   ...
@@ -145,31 +150,79 @@ The first entry `"options"` contains a complete copy of the input configuration 
 
 The actual results come under `"results"`.  Shown above are the per-site densities for species 0 and 1, i.e. the fraction of time each site is empty or occupied, respectively, so that pairwise the entries add to 1.  Plotted, these density profiles look like this: TODO.
 
-The `"counts"` entry records injections (23313) and extractions (89000) ??? negative??? at site 1.  The two 'null' elements are for the bulk and right boundary transitions.
+The `"counts"` entry records injections (22816) and extractions (88865) at site 1.  The two 'null' elements are for the bulk and right boundary transitions.
 
-TODO fix "counts" bug (?) and compare to asymptotic values.
 
 ## Build and run instructions
-OpenEPS
-## Input format
 
-## Output format
+OpenEPSim uses [Maven](https://maven.apache.org/).  It uses the libraries [gson](https://github.com/google/gson) and [Apache Common Maths](http://commons.apache.org/proper/commons-math/), but Maven will take care of the dependencies.
 
-
-## Very brief instructions
-Download the jars for [gson](https://github.com/google/gson) and [Apache Common Maths](http://commons.apache.org/proper/commons-math/) and update env.sh to point to them.
-
-Now compiles with [Maven](https://maven.apache.org/)
+To compile:
 ```
 mvn compile
 ```
 
-To run the ASEP simulation from the samples folder
+To run the test cases (this will take a few minutes):
 ```
-./run.sh < samples/asep.json > asep.out.json
+mvn test
 ```
 
-Python script to plot resulting density profiles (uses matplotlib)
+To produce a jar, run
 ```
-python plotdensity.py asep.out.json
+mvn package
 ```
+This will produce a jar with just the OpenEPSim code (target/openepsim-VERSION.jar), and a jar containing all the dependencies (target/openepsim-with-deps-VERSION.jar).
+
+To run
+```
+java -classpath target/openepsim-with-deps-VERSION.jar openepsim.OpenEPSimulation < input.json > output.json
+```
+
+
+## Input format
+
+The input configuration is given as a dictionary of key - value mappings in JSON format.
+
+| Key          | Type                 | Description                                           |
+|--------------|----------------------|-------------------------------------------------------|
+| L            | Integer > 0          | Lattice length. |
+| nstates      | Integer > 0          | Number of states per site (e.g nstates = 2 for the ASEP: empty or occupied). |
+| transitions  | List                 | List of transition specifications (see below). |
+| initialState | List of integers ≥ 0 | Initial lattice configuration.  First L taken if length greater than L, or right-padded with zeroes if length less than L. |
+| seed         | Integer              | Seed for the random number generator.  Leave unset or set to 0 to let system choose the seed. |
+| verbose      | Integer              | Set greater than zero for verbose output. |
+| tMax         | Floating point > 0   | Simulation length (in simulation time units). |
+| tSkip        | Floating point ≥ 0   | Skip tSkip time units before recording statistics. |
+
+`transitions` is a list specifying the local transition matrices.  Each item is a dictionary of key - value mappings:
+
+| Key          | Type                 | Description                                           |
+|--------------|----------------------|-------------------------------------------------------|
+| window       | Integer > 0          | Number of neighbouring sites the transition matrix applies to |
+| from         | Integer              | First site to apply this matrix to.  Sites are labelled left-to-right 1, 2, ..., L, or right-to-left -1, -2, ..., -L. |
+| to           | Integer              | Last site to apply this matrix to, indexed as for `from`.|
+| count        | Boolean              | Count the number of time each transition occurs.  Aggregated across all sites this local transition matrix is applied to. |
+| rates        | Array of floating point values | The local transition matrix.  Diagonal values can be left as zero and will be filled correctly.  Should be a square matrix of size nstates<sup>window</sup>. |
+
+## Output format
+
+The output of OpenEPSim is a dictionary of key - value mappings in JSON format:
+
+| Key          | Type                 | Description                                           |
+|--------------|----------------------|-------------------------------------------------------|
+| options      |                      | The complete input configuration (see [above](#input-format)) |
+| results      |                      | The collected results, described below. |
+| finalState | List of integers ≥ 0 | Final lattice configuration. |
+| runtime | Floating point value | The time taken to run this simulation (wall clock time). |
+
+`results` is again a dictionary of key - value mappings in JSON format:
+
+
+| Key          | Type                 | Description                                           |
+|--------------|----------------------|-------------------------------------------------------|
+| tTotal       | Floating point > 0   | Actual simulation length (in simulation time units).  |
+| density      | List of list of floating point values | density[c] (length L list) is the time-averaged density profile species c.  That is, density[c][i] is the fraction of simulation time site i was occupied by species c.  |
+| speciesDensity      | List of list of floating point values | speciesDensity[c][k] is the fraction of simulation time the lattice contained *exactly* k particles of species c. |
+| counts       | List of array of integers | Count of number of times each transition occured.  counts[i] is null if the corresponding local transition specification does not have `count` set to true. |
+
+
