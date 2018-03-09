@@ -4,7 +4,7 @@
     <groupId>OpenEPSim</groupId>
     <artifactId>openepsim</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>0.1.0</version>
     <name>openepsim</name>
     <url>http://maven.apache.org</url>
     <properties>
@@ -54,7 +54,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
-                    <finalName>openepsim-with-deps-${project.version}</finalName>
+                    <finalName>openepsim-complete</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
                     <attach>false</attach>
                 </configuration>

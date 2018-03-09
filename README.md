@@ -15,12 +15,11 @@ To define a model and run a simulation, all that is needed is to specify the tra
 
 ## Quick start guide
 
-OpenEPSim is written in Java.  Compiled versions are available [here](https://github.com/caley/OpenEPSim/releases), so that only the Java runtime (version 1.8) is required to run it.  As an example, we will look at the configuration file [asep.json](samples/asep.json).
-All input and output is in [JSON](https://www.json.org/) format.  
+OpenEPSim is written in Java.  Compiled versions are available [here](https://github.com/caley/OpenEPSim/releases), so that only the Java runtime (version 1.8) is required to run it.  As an example, we will run a simulation of the ASEP, with the configuration file [asep.json](samples/asep.json).  All input and output is in [JSON](https://www.json.org/) format.  
 
-Assuming [openeps-with-deps-VERSION.jar](TODO) and [asep.json](samples/asep.json) have been saved to the current directory, we can run the simulation as
+Unzip the latest [release](https://github.com/caley/OpenEPSim/releases), and change to the created directory.  We can run the simulation with the command
 ```shell
-$ java -classpath openeps-with-deps-VERSION.jar openeps.OpenEPSimulation < asep.json > asep-results.json
+$ java -classpath openepsim-complete.jar openeps.OpenEPSimulation < samples/asep.json > asep-results.json
 ```
 Let's now explain what that will do (or has done already if you're keen).
 
@@ -156,17 +155,20 @@ In the above example, the simulation output is written to asep-results.json (a s
 The first entry `"options"` contains a complete copy of the input configuration (in this case asep.json).  This is to ease keeping track of simulation runs.
 
 The actual results come under `"results"`.  The `"density"` item contains the per-site densities for species 0 and 1, i.e. the fraction of time each site is empty or occupied, respectively, so that pairwise the entries add to 1.  The density profile for species 1 is plotted here:
+
 ![ASEP density profile](samples/asep-density.png)
+
 The bulk value is close to the expected value of 0.75.
 
 The `"counts"` entry records injections (23093) and extractions (89006) at site 1.  The two 'null' elements are for the bulk and right boundary transitions, which left the `count` flag unset.  To compute the time-averaged current at the first site we divide the net entries by the total time to give (89006 - 23093) / 50000 = 0.13, which matches the expected value.
 
 The `"speciesDensity"` entry records the fraction of time the lattice contained *exactly* k particles of each species (so 0  ≤ k ≤ L).  The species 1 results are plotted here:
+
 ![ASEP species density](samples/asep-species-density.png)
 
 ## Build and run instructions
 
-OpenEPSim uses [Maven](https://maven.apache.org/).  It uses the libraries [gson](https://github.com/google/gson) and [Apache Common Maths](http://commons.apache.org/proper/commons-math/), but Maven will take care of the dependencies.
+OpenEPSim uses [Maven](https://maven.apache.org/).  It uses the libraries [google-gson](https://github.com/google/gson) and [Apache Common Maths](http://commons.apache.org/proper/commons-math/), but Maven will take care of the dependencies.
 
 To compile:
 ```
