@@ -1,6 +1,6 @@
 # OpenEPSim: Open Exclusion Process Simulation Tool
 
-OpenEPSim simulates exclusion processes on finite lattices, such as the [ASEP](https://arxiv.org/abs/cond-mat/0611701).  It handles multi-species models, arbitrary local interactions involving 1 or more neighbouring sites, and open boundary conditions (periodic boundaries are not supported).  Output includes time-averaged density profiles, distributions of the number of particles of each species, and counts of specified transitions allowing computation of average currents.
+OpenEPSim simulates exclusion processes on finite lattices, such as the [ASEP](https://arxiv.org/abs/cond-mat/0611701).  It handles multi-species models, arbitrary local interactions involving 1 or more neighbouring sites, and open boundary conditions (periodic boundaries are not supported).  It collects statistics to produce time-averaged density profiles, distributions of the number of particles of each species, and counts of specified transitions allowing computation of average currents.
 
 To define a model and run a simulation, all that is needed is to specify the transition matrix, and a few other parameters.  The system is then simulated using the [Gillespie algorithm](https://en.wikipedia.org/wiki/Gillespie_algorithm), and time-averaged statistics collected.
 
@@ -20,7 +20,7 @@ All input and output is in [JSON](https://www.json.org/) format.
 
 Assuming [openeps-with-deps-VERSION.jar](TODO) and [asep.json](samples/asep.json) have been saved to the current directory, we can run the simulation as
 ```shell
-$ java -classpath openeps-with-deps-VERSION.jar openeps.OpenEPSimulation < asep.json > results.json
+$ java -classpath openeps-with-deps-VERSION.jar openeps.OpenEPSimulation < asep.json > asep-results.json
 ```
 Let's now explain what that will do (or has done already if you're keen).
 
@@ -29,6 +29,12 @@ Let's now explain what that will do (or has done already if you're keen).
 The configuration file specifies the transition matrix for the open boundary ASEP, following the notation from [here](https://arxiv.org/abs/cond-mat/0609645).  We have taken boundary and bulk rates
 
 > α = 0.29, β = 0.22, γ = 0.12, δ = 0.13, p = 1, q = 0.3.
+
+We will compare our simulation output to the [exact results for the ASEP stationary state](https://arxiv.org/abs/cond-mat/0312457).  The boundary rates we have chosen correspond to parameters
+
+> a = 2, b = 3, c = -0.2, d = -0.2.
+
+We expect a bulk density b/(1 + b) = 0.75, and an average current (1 - q)*b/(1 + b)<sup>2</sup> = 0.13.
 
 This is the configuration file asep.json (with most of the comments left out):
 ```javascript
@@ -129,29 +135,34 @@ Finally, `"tMax": 500000` specifies how long to run the simulation for (simulati
 
 ### Results
 
-In the above example, the simulation output is written to results.json.  We'll look at just an edited snippet of it:
+In the above example, the simulation output is written to asep-results.json (a sample copy is [here](sample/asep-results.json)).  We'll look at just an edited snippet of it:
 ```
 {
   "options": {...},
   "results": {
-    "density":[
-    [0.6136124458963576,0.5697727375152507,0.5287006021014491,0.49270236944673473,0.45945597929829235,0.4315336312930617,0.407855282575572,0.3871513067377864,0.36742625435206605,0.3505489219535033,0.3351897765138729,0.3223181253438335,0.3123143017965667,0.303200252157777,0.2950027856021224,0.2889895897364133,0.28372286332798413,0.2795785808732041,0.2754119764129561,0.2715824417522548,0.2685563040889099,0.2655981483018454,0.2640067565888113,0.2611805373130109,0.26052807840176373,0.259105732519901,0.25806895004560776,...],
-    [0.386387554103628,0.43022726248468085,0.4712993978984931,0.5072976305532152,0.540544020701648,0.5684663687068996,0.5921447174244232,0.6128486932622469,0.6325737456479313,0.6494510780465081,0.6648102234860775,0.6776818746561228,0.6876856982033551,0.6967997478421131,0.70499721439781,0.7110104102635096,0.7162771366718487,0.7204214191267312,0.7245880235869685,0.7284175582476695,0.7314436959110004,0.7344018516980817,...]
-    ],
+      "tTotal":1000000.0,
+      "density":[
+          [0.6132431964131151,0.56850637628425,0.527805856398517,0.4908249150892558,0.45781468242825724,0.4291742070221835,0.4036788321150717,0.3810893862450366,0.3621730165748032,0.3457414031521843,0.3313461146514231,0.3193108553868618,0.3091402647802975,0.30149941321612883,0.2947346600446128,0.2886469150880875,0.2840809862860413,0.2789701130844067,0.27493839893074945,0.2710943601832644,0.2680015108156449,0.2666654701975349,0.2646916318225673,0.2636124078290241,0.2607195958643374,0.25832814709865426,0.25755763357471323,...],
+          [0.38675680358682923,0.4314936237157077,0.47219414360138884,0.5091750849106199,0.54218531757165,0.5708257929777809,0.5963211678849164,0.6189106137548992,0.6378269834251411,0.6542585968478035,0.6686538853484464,0.6806891446131257,0.6908597352196573,0.6985005867839079,0.7052653399553208,0.7113530849118339,0.7159190137140194,0.7210298869155123,0.7250616010691773,0.7289056398166264,0.7319984891842991,0.7333345298024254,0.7353083681774235,0.7363875921709198,0.7392804041355724,0.7416718529011976,0.742442366425203,...]],
+    "speciesDensity":[
+        [...],
+        [..., 0.001118736056908636,0.0017204342463711195,0.0023663495266899926,0.003825900565996557,0.005295143266662378,0.007742624053335403,0.010858093246110399,0.014898323911741953,0.020276396491955916,0.026250638156498547,0.033754547867308145,0.04088399820997262,0.04997814370695406,0.05914699888937598,0.06684641469169673,0.07258066663597275,0.07720809205405621,0.07997873079099985,0.07848744030727464,0.0734971743550454,0.0656150913846412,0.05676905135710418,0.04650561025127506,0.035235662344451926,0.024991944279363597,0.01747788373072043,0.011703252514376504,0.006199613373435504,0.0031194748095986647,0.0014405987583663215,7.008031089185139E-4,3.671114354186905E-4,1.5407081463117363E-4,8.387621189168643E-5,1.5479669265784674E-5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]],
     "counts":[
-      [[0,22816],
-       [88865,0]], null, null
-    ]
-  },
+        [[0,46403],
+         [178261,0]],null,null]}
   ...
 }
 ```
 The first entry `"options"` contains a complete copy of the input configuration (in this case asep.json).  This is to ease keeping track of simulation runs.
 
-The actual results come under `"results"`.  Shown above are the per-site densities for species 0 and 1, i.e. the fraction of time each site is empty or occupied, respectively, so that pairwise the entries add to 1.  Plotted, these density profiles look like this: TODO.
+The actual results come under `"results"`.  The `"density"` item contains the per-site densities for species 0 and 1, i.e. the fraction of time each site is empty or occupied, respectively, so that pairwise the entries add to 1.  The density profile for species 1 is plotted here:
+![ASEP density profile](samples/asep-density.png)
+The bulk value is close to the expected value of 0.75.
 
-The `"counts"` entry records injections (22816) and extractions (88865) at site 1.  The two 'null' elements are for the bulk and right boundary transitions.
+The `"counts"` entry records injections (23093) and extractions (89006) at site 1.  The two 'null' elements are for the bulk and right boundary transitions, which left the `count` flag unset.  To compute the time-averaged current at the first site we divide the net entries by the total time to give (89006 - 23093) / 50000 = 0.13, which matches the expected value.
 
+The `"speciesDensity"` entry records the fraction of time the lattice contained *exactly* k particles of each species (so 0  ≤ k ≤ L).  The species 1 results are plotted here:
+![ASEP species density](samples/asep-species-density.png)
 
 ## Build and run instructions
 

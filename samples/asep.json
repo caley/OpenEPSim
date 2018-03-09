@@ -1,12 +1,20 @@
 // Sample configuration for the ASEP in the high density phase
+// corresponding to parameters
 //
-// See for example https://arxiv.org/abs/1408.5357
+//    p = 1, q = 0.3, a = 2, b = 3, c = -0.2, d = -0.2
+//
+// See https://arxiv.org/abs/cond-mat/0312457 for definitions of the
+// parameters and the ASEP phase diagram, and (for example)
+// https://arxiv.org/abs/cond-mat/0609645 for the definition of the
+// transition matrices.
+//
+// Expected density rho = 0.75, current J = 0.13
 {
     // Lattice length
     "L": 100,
 
     // Simulation length (time)
-    "tMax": 500000,
+    "tMax": 1000000,
 
     // Start recording statistics from t = 0
     "tSkip": 0,
