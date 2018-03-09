@@ -202,23 +202,23 @@ public class OpenEPSimulation {
         // Print out run options and results
 
         String outString =
-            "{\"options\": "
+            "{\n\"options\": "
             +
             options.toString()
             +
-            ", \"\nresults\": "
+            ", \n\"results\": "
             +
             stats.summary()
             +
-            ", \"\nfinalState\": "
+            ", \n\"finalState\": "
             +
             config.toJson()
             +
-            ", \"\nruntime\": "
+            ", \n\"runtime\": "
             +
             (endTime - startTime)
             +
-            "}";
+            "\n}";
 
         System.out.println(outString);
     }
