@@ -19,7 +19,7 @@ OpenEPSim is written in Java.  Compiled versions are available [here](https://gi
 
 Unzip the latest [release](https://github.com/caley/OpenEPSim/releases), and change to the created directory.  We can run the simulation with the command
 ```shell
-$ java -classpath openepsim-complete.jar openeps.OpenEPSimulation < samples/asep.json > asep-results.json
+$ java -classpath openepsim-complete.jar openepsim.OpenEPSimulation < samples/asep.json > asep-results.json
 ```
 Let's now explain what that will do (or has done already if you're keen).
 
@@ -184,11 +184,11 @@ To produce a jar, run
 ```
 mvn package
 ```
-This will produce a jar with just the OpenEPSim code (target/openepsim-VERSION.jar), and a jar containing all the dependencies (target/openepsim-with-deps-VERSION.jar).
+This will produce a jar with just the OpenEPSim code (target/openepsim-VERSION.jar), and a jar containing all the dependencies (target/openepsim-complete.jar).
 
 To run
 ```
-java -classpath target/openepsim-with-deps-VERSION.jar openepsim.OpenEPSimulation < input.json > output.json
+java -classpath target/openepsim-complete.jar openepsim.OpenEPSimulation < input.json > output.json
 ```
 
 
