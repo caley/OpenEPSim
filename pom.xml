@@ -4,7 +4,7 @@
     <groupId>OpenEPSim</groupId>
     <artifactId>openepsim</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.0</version>
+    <version>0.1.1-SNAPSHOT</version>
     <name>openepsim</name>
     <url>http://maven.apache.org</url>
     <properties>
