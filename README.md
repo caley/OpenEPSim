@@ -21,7 +21,9 @@ Unzip the latest [release](https://github.com/caley/OpenEPSim/releases), and cha
 ```shell
 $ java -classpath openepsim-complete.jar openepsim.OpenEPSimulation < samples/asep.json > asep-results.json
 ```
-Let's now explain what that will do (or has done already if you're keen).
+Note that the input configuration is read from standard input (stdin), and all output is written to the console (stdout), so we have used the redirections '<' and '>' to read from and write to the appropriate files.
+
+Let's now explain what that command will do (or has done already if you're keen).
 
 ### Input configuration
 
@@ -190,7 +192,7 @@ To run
 ```
 java -classpath target/openepsim-complete.jar openepsim.OpenEPSimulation < input.json > output.json
 ```
-
+Note that the input configuration is read from standard input (stdin), and all output is written to the console (stdout), so the redirections '<' and '>' are used to read from and write to the appropriate files.
 
 ## Input format
 
@@ -237,5 +239,3 @@ The output of OpenEPSim is a dictionary of key - value mappings in JSON format:
 | density      | List of list of floating point values | density[c] (length L list) is the time-averaged density profile species c.  That is, density[c][i] is the fraction of simulation time site i was occupied by species c.  |
 | speciesDensity      | List of list of floating point values | speciesDensity[c][k] is the fraction of simulation time the lattice contained *exactly* k particles of species c. |
 | counts       | List of array of integers | Count of number of times each transition occured.  counts[i] is null if the corresponding local transition specification does not have `count` set to true. |
-
-
