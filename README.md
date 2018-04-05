@@ -170,6 +170,10 @@ The `"speciesDensity"` entry records the fraction of time the lattice contained 
 
 ![ASEP species density](samples/asep-species-density.png)
 
+#### Plotting note
+
+Sample scripts to produce plots like the above are included in the samples directory ([plotdensity.py](samples/plotdensity.py) and [plotspeciesdensity.py](samples/plotspeciesdensity.py)).  These scripts require Python and [Matplotlib](https://matplotlib.org/).  Usage instructions are given in the script header comments.
+
 ## Build and run instructions
 
 OpenEPSim uses [Maven](https://maven.apache.org/).  It uses the libraries [google-gson](https://github.com/google/gson) and [Apache Common Maths](http://commons.apache.org/proper/commons-math/), but Maven will take care of the dependencies.
