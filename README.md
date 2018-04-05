@@ -1,5 +1,7 @@
 # OpenEPSim: Open Exclusion Process Simulation Tool
 
+[![Build Status](https://travis-ci.org/caley/OpenEPSim.svg?branch=master)](https://travis-ci.org/caley/OpenEPSim)
+
 OpenEPSim simulates exclusion processes on finite lattices, such as the [ASEP](https://arxiv.org/abs/cond-mat/0611701).  It handles multi-species models, arbitrary local interactions involving 1 or more neighbouring sites, and open boundary conditions (periodic boundaries are not supported).  It collects statistics to produce time-averaged density profiles, distributions of the number of particles of each species, and counts of specified transitions allowing computation of average currents.
 
 To define a model and run a simulation, all that is needed is to specify the transition matrix, and a few other parameters.  The system is then simulated using the [Gillespie algorithm](https://en.wikipedia.org/wiki/Gillespie_algorithm), and time-averaged statistics collected.
