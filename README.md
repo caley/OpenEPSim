@@ -13,6 +13,7 @@ To define a model and run a simulation, all that is needed is to specify the tra
 * [Build and run instructions](#build-and-run-instructions)
 * [Input format](#input-format)
 * [Output format](#output-format)
+* [Contributing](#contributing)
 
 
 ## Quick start guide
@@ -245,3 +246,8 @@ The output of OpenEPSim is a dictionary of key - value mappings in JSON format:
 | density      | List of list of floating point values | density[c] (length L list) is the time-averaged density profile species c.  That is, density[c][i] is the fraction of simulation time site i was occupied by species c.  |
 | speciesDensity      | List of list of floating point values | speciesDensity[c][k] is the fraction of simulation time the lattice contained *exactly* k particles of species c. |
 | counts       | List of array of integers | Count of number of times each transition occured.  counts[i] is null if the corresponding local transition specification does not have `count` set to true. |
+
+
+## Contributing
+
+Contributions to this package are more than welcome.  For bug reports, trouble with usage, or suggestions for improvement, please raise a Github issue.
